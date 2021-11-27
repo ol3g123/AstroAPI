@@ -15,7 +15,8 @@ public class CuspBuilderTest {
 	final double GEOALT = 286;
 
 	@Test
-	public void placidusTest() {		
+	public void placidusTest() {
+		System.out.println("CuspBuilderTest:placidusTest");
 		LocalDateTime event = LocalDateTime.of( 2018, 3, 20, 5, 6);
 		Cusp ephemeris = new CuspBuilder(event)
 						.houses("Placidus")
@@ -27,7 +28,8 @@ public class CuspBuilderTest {
 	}
 	
 	@Test
-	public void siderealTest() {		
+	public void siderealTest() {	
+		System.out.println("CuspBuilderTest:siderealTest");
 		LocalDateTime event = LocalDateTime.of( 2018, 3, 20, 5, 6);
 		Cusp ephemeris = new CuspBuilder(event)
 						.houses("Placidus")

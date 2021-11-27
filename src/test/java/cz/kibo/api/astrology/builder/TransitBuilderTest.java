@@ -17,7 +17,7 @@ public class TransitBuilderTest {
 
 	@Test
 	public void planetToPointGeocentricTest() {
-				
+				System.out.println("TransitBuilderTest:planetToPointGeocentricTest");	
 		LocalDateTime event = LocalDateTime.of( 2017, 6, 18, 0, 0);		
 		Transit transit = new TransitBuilder( event)
 										.planet("Sun")

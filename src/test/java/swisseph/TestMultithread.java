@@ -18,7 +18,7 @@ public class TestMultithread {
 	final double GEOALT = 286;
 	final String PATH_TO_EPHEMERIS = "/data/ephemeris";
 	
-  @Test(threadPoolSize = 10, invocationCount = 1000, timeOut = 1000)
+  //@Test(threadPoolSize = 10, invocationCount = 1000, timeOut = 1000)
   public void testMultiProcessing() {
 	  
 	  Long id = Thread.currentThread().getId();

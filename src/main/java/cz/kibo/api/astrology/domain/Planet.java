@@ -69,11 +69,13 @@ public class Planet extends Ephemeris{
 	 * @see swisseph.SweConst
 	 */
 	public Planet( LocalDateTime event, List<Integer> planets, Coordinates coords, int iflag ) {
+	
 		super();
 		this.event = event;
 		this.planets = planets;
 		this.coords = coords;
 		this.iflag = SweConst.SEFLG_SWIEPH | SweConst.SEFLG_SPEED | SweConst.SEFLG_TOPOCTR;
+			System.out.println("Testing Planet calculations");
 		
 		sw = new SwissEph( getPathToEphemeris() );
 		sw.swe_set_topo(this.coords.getLongitude(), this.coords.getLatitude(), this.coords.getGeoalt());
@@ -125,7 +127,7 @@ public class Planet extends Ephemeris{
 				if (serr.length() > 0) {
 					System.err.println("Warning: " + serr);
 				} else {
-					System.err.println( String.format("Warning, different flags used (0x%x)", ret));					
+					System.err.println( String.format("Warning, different flags used (0x%x). Orig flag %20s, return flag %20s", ret, Integer.toBinaryString(flags), Integer.toBinaryString(ret)));					
 				}
 			}
 								

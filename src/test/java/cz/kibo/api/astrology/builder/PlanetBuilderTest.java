@@ -16,7 +16,8 @@ public class PlanetBuilderTest {
 	final double GEOALT = 286;
 
 	@Test
-	public void allPlanetTest() {		
+	public void allPlanetTest() {	
+		System.out.println("PlanetBuilderTest:allPlanetTest");
 		LocalDateTime event = LocalDateTime.of( 2018, 3, 20, 16, 20);
 		Planet ephemeris = new PlanetBuilder( event )
 							.planets()
@@ -26,6 +27,7 @@ public class PlanetBuilderTest {
 	
 	@Test
 	public void planetTest() {		
+		System.out.println("PlanetBuilderTest:planetTest");
 		LocalDateTime event = LocalDateTime.of( 2018, 3, 20, 16, 20);
 		Planet ephemeris = new PlanetBuilder( event )
 							.planet("Sun, Moon")
@@ -34,7 +36,8 @@ public class PlanetBuilderTest {
 	}
 	
 	@Test
-	public void topoTest() {		
+	public void topoTest() {
+		System.out.println("PlanetBuilderTest:topoTest");
 		LocalDateTime event = LocalDateTime.of( 2018, 3, 20, 16, 20);
 				
 		Planet ephemeris = new PlanetBuilder( event )
@@ -47,6 +50,7 @@ public class PlanetBuilderTest {
 	
 	@Test
 	public void zidiacTest() {		
+			System.out.println("PlanetBuilderTest:zidiacTest");
 		LocalDateTime event = LocalDateTime.of( 2018, 4, 18, 4, 00);
 				
 		Planet ephemeris = new PlanetBuilder( event )
