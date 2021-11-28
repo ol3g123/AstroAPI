@@ -87,7 +87,12 @@ class SweHouse
 		implements java.io.Serializable
 		{
 
-  static final double MILLIARCSEC=1.0 / 3600000.0;
+            /**
+             *
+             */
+            private static final long serialVersionUID = -5063096256745426941L;
+
+            static final double MILLIARCSEC = 1.0 / 3600000.0;
 
   SwissLib sl=null;
   SwissEph sw=null;
@@ -264,16 +269,21 @@ class SweHouse
       nutlo[i] *= SwissData.RADTODEG;
       /*houses_to_sidereal(tjde, geolat, hsys, eps, cusp, ascmc, iflag);*/
     armc = sl.swe_degnorm(sl.swe_sidtime0(tjd_ut, eps_mean + nutlo[1], nutlo[0]) * 15 + geolon);
-    if ((iflag & SweConst.SEFLG_SIDEREAL)!=0) {
+    if ((iflag & SweConst.SEFLG_SIDEREAL) != 0) {
+        System.out.println("1. Cusp:swe_houses: return code: " + retc);
       if ((sip.sid_mode & SweConst.SE_SIDBIT_ECL_T0)!=0) {
         retc = sidereal_houses_ecl_t0(tjde, armc, eps_mean + nutlo[1], nutlo, geolat, hsys, cusp, ascmc, aOffs);
+        System.out.println("2. Cusp:swe_houses: return code: " + retc);
       } else if ((sip.sid_mode & SweConst.SE_SIDBIT_SSY_PLANE)!=0) {
         retc = sidereal_houses_ssypl(tjde, armc, eps_mean + nutlo[1], nutlo, geolat, hsys, cusp, ascmc, aOffs);
+        System.out.println("3. Cusp:swe_houses: return code: " + retc);
       } else {
         retc = sidereal_houses_trad(tjde, armc, eps_mean + nutlo[1], nutlo[0], geolat, hsys, cusp, ascmc, aOffs);
+        System.out.println("4. Cusp:swe_houses: return code: " + retc);
       }
     } else {
       retc = swe_houses_armc(armc, geolat, eps_mean + nutlo[1], hsys, cusp, ascmc, aOffs);
+      System.out.println("5. Cusp:swe_houses: return code: " + retc);
     }
     if ((iflag & SweConst.SEFLG_RADIANS)!=0) {
       for (i = 1; i <= ito; i++)
@@ -716,6 +726,7 @@ class SweHouse
    *  implemented for arguments in degrees.
    ***********************************************************/
   {
+      System.out.println("SweHouse:CalcH:house: " + hsy + "; fi: " + fi);
     double tane, tanfi, cosfi, tant, sina, cosa, th2;
     double a, c, f, fh1, fh2, xh1, xh2, rectasc, ad3, acmc, vemc;
     int i, ih, ih2, retc = SweConst.OK;
@@ -1188,21 +1199,29 @@ class SweHouse
         }
         break;
       default:    /* Placidus houses */
+      System.err.println("CalH: make Placidus, key "+hsy);
+      System.err.println(
+              "CalH: Placidus, error 0. error: " + retc + " fi, ekl, 90-ekl " + fi + ", " + ekl + ", " + (90 - ekl));
         if (hsy != 'P') {
           System.err.println("swe_houses: make Placidus, unknown key "+hsy);
         }
         if (SMath.abs(fi) >= 90 - ekl) {  /* within polar circle */
+            
           retc = SweConst.ERR;
 //          goto porphyry;
           makePorphyry(hsp);
+          System.err.println("CalH: Placidus, error 1. error: " + retc + " fi, ekl, 90-ekl " + fi + ", " + ekl + ", "
+                  + (90 - ekl));
           break;
         }
+        System.err.println("CalH: Placidus, error 21 error " + retc);
         a = asind(tand(fi) * tane);
         fh1 = atand(sind(a / 3) / tane);
         fh2 = atand(sind(a * 2 / 3) / tane);
         /* ************  house 11 ******************** */
         rectasc = sl.swe_degnorm(30 + th);
         tant = tand(asind(sine * sind(Asc1 (rectasc, fh1, sine, cose))));
+        System.err.println("CalH: Placidus, error 22 error " + retc);
         if (SMath.abs(tant) < VERY_SMALL) {
           hsp.cusp [11] = rectasc;
         } else {
@@ -1220,6 +1239,7 @@ class SweHouse
             hsp.cusp [11] = Asc1 (rectasc, f, sine, cose);
           }
         }
+         System.err.println("CalH: Placidus, error 2");
         /* ************  house 12 ******************** */
         rectasc = sl.swe_degnorm(60 + th);
         tant = tand(asind(sine*sind(Asc1 (rectasc,  fh2, sine, cose))));
@@ -1241,6 +1261,7 @@ class SweHouse
           }
         }
         /* ************  house  2 ******************** */
+         System.err.println("CalH: Placidus, error 3");
         rectasc = sl.swe_degnorm(120 + th);
         tant = tand(asind(sine * sind(Asc1 (rectasc, fh2, sine, cose))));
         if (SMath.abs(tant) < VERY_SMALL) {
@@ -1261,6 +1282,7 @@ class SweHouse
           }
         }
         /* ************  house  3 ******************** */
+         System.err.println("CalH: Placidus, error 4. return code: " + retc);
         rectasc = sl.swe_degnorm(150 + th);
         tant = tand(asind(sine * sind(Asc1 (rectasc, fh1, sine, cose))));
         if (SMath.abs(tant) < VERY_SMALL) {
@@ -1282,6 +1304,7 @@ class SweHouse
         }
         break;
     } /* end switch */
+     System.err.println("CalH: Placidus, error 5. return code: " + retc);
     if (hsy != 'G' && hsy != 'Y') {
       hsp.cusp [4] = sl.swe_degnorm(hsp.cusp [10] + 180);
       hsp.cusp [5] = sl.swe_degnorm(hsp.cusp [11] + 180);
@@ -1310,6 +1333,7 @@ class SweHouse
      * some strange points:
      */
     /* equasc (equatorial ascendant) */
+     System.err.println("CalH: Placidus, error 6. return code: " + retc);
     th2 = sl.swe_degnorm(th + 90);
     if (SMath.abs(th2 - 90) > VERY_SMALL
       && SMath.abs(th2 - 270) > VERY_SMALL) {
@@ -1336,6 +1360,7 @@ class SweHouse
     }
     /* "polar ascendant" M. Munkasey */
     hsp.polasc = Asc1 (th - 90, fi, sine, cose);
+    System.err.println("CalH: Placidus, error 7. return code: " + retc);
     return retc;
   } /* procedure houses */
 
